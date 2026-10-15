@@ -1,0 +1,69 @@
+name: Release
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: "Stable version X.Y.Z (without v)"
+        required: true
+        type: string
+
+permissions:
+  contents: read
+
+concurrency:
+  group: release
+  cancel-in-progress: false
+
+jobs:
+  check:
+    if: github.ref == 'refs/heads/main'
+    uses: ./.github/workflows/check.yml
+
+  release:
+    needs: check
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    env:
+      VERSION: ${{ inputs.version }}
+      GH_TOKEN: ${{ github.token }}
+      PYTHONDONTWRITEBYTECODE: "1"
+    steps:
+      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4.3.1
+        with:
+          fetch-depth: 0
+      - name: Prepare and publish release
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$GITHUB_REF" = refs/heads/main
+          test -z "$(git status --porcelain)"
+          base=$(git rev-parse HEAD)
+          git fetch origin main --tags
+          test "$base" = "$(git rev-parse origin/main)" || {
+            echo "::error::main changed since this run started. Start a new run."
+            exit 1
+          }
+          if git show-ref --verify --quiet "refs/tags/v$VERSION"; then
+            echo "::error::Tag v$VERSION already exists."
+            exit 1
+          fi
+          python scripts/package.py version "$VERSION"
+          archive="$RUNNER_TEMP/andre-marinho-skills-$VERSION.zip"
+          python scripts/package.py build --output "$archive"
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add plugin.json .claude-plugin/plugin.json
+          if ! git diff --cached --quiet; then
+            git commit -m "chore: release v$VERSION"
+          fi
+          git tag -a "v$VERSION" -m "Release v$VERSION"
+          git fetch origin main
+          test "$base" = "$(git rev-parse origin/main)" || {
+            echo "::error::main changed during preparation. Start a new run."
+            exit 1
+          }
+          git push --atomic origin HEAD:refs/heads/main "refs/tags/v$VERSION"
+          gh release create "v$VERSION" "$archive" --verify-tag \
+            --repo "$GITHUB_REPOSITORY" --title "v$VERSION" --generate-notes

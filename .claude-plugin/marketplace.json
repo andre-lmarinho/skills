@@ -1,0 +1,17 @@
+{
+  "$schema": "https://anthropic.com/claude-code/marketplace.schema.json",
+  "name": "andre-lmarinho",
+  "owner": {
+    "name": "Andre Marinho",
+    "url": "https://github.com/andre-lmarinho"
+  },
+  "plugins": [
+    {
+      "name": "andre-marinho-skills",
+      "source": "./",
+      "description": "Engineering documentation, search visibility, and web accessibility skills.",
+      "category": "development"
+    }
+  ],
+  "description": "Engineering documentation, search visibility, and web accessibility skills."
+}

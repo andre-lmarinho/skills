@@ -1,0 +1,20 @@
+{
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
+  "name": "andre-marinho-skills",
+  "version": "0.1.0",
+  "description": "Engineering documentation, search visibility, and web accessibility skills.",
+  "author": {
+    "name": "Andre Marinho",
+    "url": "https://github.com/andre-lmarinho"
+  },
+  "homepage": "https://github.com/andre-lmarinho/skills",
+  "repository": "https://github.com/andre-lmarinho/skills",
+  "license": "MIT",
+  "keywords": [
+    "engineering",
+    "documentation",
+    "seo",
+    "geo",
+    "accessibility"
+  ]
+}
