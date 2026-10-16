@@ -59,3 +59,7 @@ Access notes for this review: the [legacy X large-image-card documentation](http
 ## Decision-rule update — 2026-10-15
 
 Added conditional references because the initial workflow named agent formats and media without enough selection or verification criteria. The revision now distinguishes per-page coverage, full-context export, broader discovery, and API use; requires body/cache/publication checks; and separates browser images from consumer-tested social previews. The full-export acceptance checks, portfolio candidates, common image canvas, and cost/benefit decisions are engineering heuristics informed by these sources, not provider ranking rules. Sources were checked for the scope recorded in each row; examples demonstrate implementation, not a visibility uplift.
+
+## Image reuse clarification — 2026-10-16
+
+Rechecked [Open Graph structured properties](https://ogp.me/#structured) and [Next.js metadata](https://nextjs.org/docs/app/api-reference/functions/generate-metadata). They support image URLs and descriptive metadata without requiring a generated card. MEDIA.md now prioritizes suitable existing images and separates metadata repairs, format fallbacks, and editorial redesigns. This selection rule is an engineering heuristic; no new consumer compatibility was verified.
