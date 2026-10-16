@@ -12,13 +12,15 @@ For each image, associate `og:image:type`, width, height, and alt with the corre
 
 Inspect the actual `twitter:card`, title, description, image, and alt or their supported fallbacks. Some clients consume Open Graph, some card-specific tags; sharing behavior is not specified by Google Search. Verify the target consumer's current accepted formats, file size, dimensions/aspect ratio, cropping, and fallback behavior. A common 1200 × 630 design canvas is a starting convention, not an Open Graph eligibility rule.
 
+Prefer an existing page image for Open Graph and Twitter when it represents the page and meets the intended consumer's requirements. This applies to posts, articles, projects, and other pages. Add a dedicated asset or generator only when no suitable image exists, an observed limitation requires it, or the user explicitly chooses a different presentation. Fix missing metadata without replacing a suitable image.
+
 ## Fetch and inspect the actual asset
 
 Follow the declared image URL with GET as a logged-out client. Check final status, redirect target, content type, decoded dimensions, byte size, and visual content. Detect an HTML challenge/error at an image URL, expiring signed URLs, hotlink protection, authentication, or crawler-specific denial. Requesting a spoofed user-agent cannot prove the platform's servers can fetch it.
 
 Compare the declared image with the delivered negotiated variant; filenames and tags alone cannot establish format. Open the image to check title legibility, clipping, contrast, and safe cropping on the intended card. Check generated route assets, screenshots, and default/fallback images, not just files under a public directory. A large browser screenshot is not automatically a useful social card.
 
-Browser support for AVIF/WebP does not establish support in LinkedIn, Facebook, X, or another sharing client. Keep a stable PNG/JPEG card when compatibility is unknown, and test WebP/AVIF for a named consumer before relying on them. This is a compatibility fallback decision, not a ban on modern social image formats.
+Browser support for AVIF/WebP does not establish support in LinkedIn, Facebook, X, or another sharing client. Test WebP/AVIF for a named consumer before claiming compatibility. When a fallback is needed, prefer an existing or minimally converted PNG/JPEG version of the same visual before a new design or generator. Unverified compatibility is a verification gap, not evidence of a broken preview.
 
 When available, inspect the actual preview using the target platform's official debugger/inspector or a supplied preview. Record date, consumer, and URL. A local tag parser is not a platform preview. If a stale preview persists, distinguish cached HTML/metadata, cached image bytes, and application inheritance before adding cache-busting URLs. Do not publish a post or submit private/signed preview URLs to a public debugger merely to validate metadata. When platform access is unavailable, report exactly which layers passed and which remain untested.
 
