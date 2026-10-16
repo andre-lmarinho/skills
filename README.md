@@ -55,7 +55,7 @@ Use a client with plugin support. The Skills CLI route also works when the insta
 | You need to… | Skill | What it checks |
 | --- | --- | --- |
 | Write, shorten, or review engineering documentation | [engineering-docs](skills/engineering-docs/SKILL.md) | Reader needs, implementation accuracy, procedures, interface contracts, and scope. |
-| Audit or fix how a site is discovered and interpreted | [technical-seo](skills/technical-seo/SKILL.md) | Crawling, rendering, indexing, canonical URLs, metadata, structured data, and AI-search access. |
+| Audit or fix how a site is discovered and interpreted | [technical-seo](skills/technical-seo/SKILL.md) | Search access, canonical URLs, structured data, social previews, image delivery, and agent-readable formats. |
 | Review search-facing text and drafts for useful, supported information | [search-content-review](skills/search-content-review/SKILL.md) | Information value, evidence, entity clarity, unsupported claims, repetition, and context lost in excerpts. |
 | Review or fix barriers in a web interface | [web-accessibility](skills/web-accessibility/SKILL.md) | Complete interactions, semantics, keyboard and assistive technology behavior, and applicable WCAG criteria. |
 
