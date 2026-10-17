@@ -1,6 +1,6 @@
 # Sources and maintenance
 
-Baseline checked: 2026-10-15; affected references rechecked: 2026-10-16. The skill targets web engineering. It does not determine legal applicability or replace specialist evaluation of native software, documents, or a conformance claim.
+Baseline checked: 2026-10-15; affected references rechecked: 2026-10-17. The skill targets web engineering. It does not determine legal applicability or replace specialist evaluation of native software, documents, or a conformance claim.
 
 ## Authority
 
@@ -19,6 +19,9 @@ Baseline checked: 2026-10-15; affected references rechecked: 2026-10-16. The ski
 | [Image Decision Tree](https://www.w3.org/WAI/tutorials/images/decision-tree/) | WAI tutorial | Choose alternatives from the image's contextual purpose. |
 | [WAI Tables](https://www.w3.org/WAI/tutorials/tables/) and [Grouping Controls](https://www.w3.org/WAI/tutorials/forms/grouping/) | Informative tutorials | Header/data-cell relationships and shared form questions; choose techniques for the actual structure, not a universal attribute recipe. |
 | [ACT: aria-hidden and sequential focus](https://www.w3.org/WAI/standards-guidelines/act/rules/6cfa84/) | Atomic test rule, with applicability and support assumptions | Investigate hidden content retaining keyboard focus; passing this rule does not pass all of 4.1.2. |
+| [ACT: Scrollable content and sequential focus](https://www.w3.org/WAI/standards-guidelines/act/rules/0ssw9k/) | Atomic test rule, updated 2023-08-30; rechecked 2026-10-17 | Scroller/descendant focus access under 2.1.1, with decorative-content and equivalent-keyboard-control assumptions. Browser focus support varies; actual keyboard scrolling needs a separate behavioral check. |
+| [MDN: overflow accessibility](https://developer.mozilla.org/en-US/docs/Web/CSS/Reference/Properties/overflow#accessibility) | Informative implementation guidance, modified 2026-08-27; rechecked 2026-10-17 | Explains scroll-container focus limitations and a `tabindex` technique. Suggested roles/names require contextual judgment; they are not blanket WCAG requirements. |
+| [Shiki: codeToHast API](https://shiki.style/api#codetohast) | Library implementation example; checked 2026-10-17 | Documents generated `pre` markup with `tabindex="0"`. Supports considering a simple focus fallback for code that may overflow; framework output is not a WCAG requirement or a browser-support guarantee. |
 | [Form Notifications](https://www.w3.org/WAI/tutorials/forms/notifications/) | WAI tutorial | Error identification, correction paths, associations, and notification choices. |
 | [Making Audio and Video Accessible](https://www.w3.org/WAI/media/av/) | WAI practical guidance | Media-type distinctions, alternatives, captions, descriptions, and player accessibility. |
 | [COGA: Making Content Usable](https://www.w3.org/TR/coga-usable/) | W3C Working Group Note, 2021-04-29 | Supplemental cognitive and learning accessibility guidance beyond WCAG conformance. |
@@ -48,3 +51,7 @@ Rechecked the affected WCAG 2.2 criteria and Understanding guidance for sensory 
 WCAG-EM 2.0, WCAG 3.0, and AccName 1.2 publication statuses/dates were confirmed. Canonical WCAG-EM and WCAG 3.0 links were normalized; the older aliases still returned the expected documents when checked. ARIA in HTML, the Page Regions tutorial, and HTML-AAM were checked to distinguish authoring rules, informative techniques, and draft mappings. The interface description now names audit work explicitly; it is a display label, not the skill-dispatch description.
 
 A complementary A11Y Project review prompted explicit checks for hidden focus stops, table-header associations, and shared form questions. These were verified against W3C ACT and WAI guidance; the checklist remains a secondary discovery aid rather than the authority for a WCAG failure.
+
+## Review update — 2026-10-17
+
+A site audit's scanner flagged an overflowing code block without an explicit focus target. Chromium 149 supplied native focus; other browsers were not tested, so no browser-specific keyboard failure was established. Rechecked ACT 0ssw9k's applicability, focus expectation, exceptions, and support notes, MDN's overflow guidance, and Shiki's documented focusable `pre` output. CHECKS.md now calls for Tab and arrow-key testing and visible focus, separates observed behavior from untested support, and allows a simple focus fallback for code that may overflow. That tradeoff does not require dynamic overflow tracking or justify tab stops and roles on arbitrary content.
