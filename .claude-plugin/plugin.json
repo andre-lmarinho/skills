@@ -1,7 +1,7 @@
 {
   "name": "andre-marinho-skills",
   "version": "0.1.0",
-  "description": "Engineering documentation, search visibility, and web accessibility skills.",
+  "description": "Technical SEO, search content review, and web accessibility skills.",
   "author": {
     "name": "Andre Marinho",
     "url": "https://github.com/andre-lmarinho"
@@ -9,11 +9,5 @@
   "homepage": "https://github.com/andre-lmarinho/skills",
   "repository": "https://github.com/andre-lmarinho/skills",
   "license": "MIT",
-  "keywords": [
-    "engineering",
-    "documentation",
-    "seo",
-    "geo",
-    "accessibility"
-  ]
+  "keywords": ["seo", "geo", "accessibility"]
 }

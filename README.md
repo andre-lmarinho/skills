@@ -1,14 +1,78 @@
-# Engineering Skills
+# Web discovery and accessibility skills
 
-Agent skills for writing documentation that matches the code, reviewing search visibility, improving technical content, and finding barriers in web interfaces.
+Three skills help review public site behavior, search-facing content, and web interactions. Use the examples below to choose the right skill.
 
-A README can lose a required default when shortened. A public article can send `noindex`. A control can have a label and still lack keyboard operation. These skills guide the agent through the evidence needed to find and correct those problems.
+## Choose a skill
 
-Each skill works independently, with a short workflow and detailed references loaded when needed. They use your existing tools and project conventions.
+| Skill                                                          | Use it for                                                                                                                             | Verified case                                                                                                                                      |
+| -------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------- |
+| [technical-seo](skills/technical-seo/SKILL.md)                 | Crawl access, public responses, URLs, metadata, social cards, and discovery formats. Use this when the issue is in the delivered site. | On Nov 22, 2026, `andremarinho.me/projects/turistar/index.md` returned HTTP 200 as Markdown and included a canonical `Link` header.                |
+| [search-content-review](skills/search-content-review/SKILL.md) | Whether search-facing claims are useful, clear, and supported by evidence. Use technical-seo for routes and rendered output.           | The `typed-svg-sprite` README reports 6.45% less gzip JavaScript but 1.73% more first-visit bytes, and warns against a general loading-time claim. |
+| [web-accessibility](skills/web-accessibility/SKILL.md)         | Whether people can complete web interactions with keyboard and assistive technology.                                                   | In `ui-components-library/feature-carousel`, cards are `div` elements and dots are `span` elements. The source binds click handlers to both.       |
+
+## Real cases
+
+### Check the published response
+
+The Turistar project Markdown route on `andremarinho.me` returned `200` with
+`Content-Type: text/markdown`. Its `Link` header named the HTML project page as
+canonical and linked `llms.txt` with `rel="describedby"`. The response body
+contained the project text. This check confirms one live route. It does not
+confirm search indexing or the rest of the site.
+
+- [Live Markdown response](https://andremarinho.me/projects/turistar/index.md)
+- [Route headers in `vercel.json`](https://github.com/andre-lmarinho/andremarinho.me/blob/main/vercel.json)
+
+Use `technical-seo` to compare source configuration with the actual response.
+Keep response checks, crawler access, and indexing evidence separate.
+
+```text
+Use technical-seo to compare this route's live response with vercel.json.
+Report the status, content type, body, and canonical header for this route.
+Do not infer indexing from a successful response.
+```
+
+### Review a measured claim
+
+The `typed-svg-sprite` benchmark reports lower gzip JavaScript and higher
+first-visit bytes for its tested workload. Its README keeps both results beside
+the limitation that they do not prove a general loading-time improvement.
+This is a real example of preserving measurement scope when editing a claim.
+
+- [Benchmark summary and limits](https://github.com/andre-lmarinho/typed-svg-sprite/blob/main/README.md#performance-measurements)
+- [Reproducible benchmark report](https://github.com/andre-lmarinho/typed-svg-sprite/blob/main/docs/performance-analysis.md)
+
+Use `search-content-review` to check the claim, conditions, baseline, and nearby
+caveats against the report.
+
+```text
+Use search-content-review to check the README benchmark summary against its report.
+Keep the 6.45% gzip decrease and 1.73% first-visit increase in context.
+Do not turn these results into a general loading-time claim.
+```
+
+### Inspect an interaction
+
+The feature carousel in `ui-components-library` uses `div` cards and `span`
+dots. Its script attaches click handlers to both sets. Source inspection shows
+no keyboard handler for those controls. Source review does not establish what a browser or
+screen reader announces.
+
+- [Carousel markup](https://github.com/andre-lmarinho/ui-components-library/blob/main/feature-carousel/index.html)
+- [Carousel interaction code](https://github.com/andre-lmarinho/ui-components-library/blob/main/feature-carousel/script.js)
+
+Use `web-accessibility` to test keyboard operation and the rendered names,
+roles, and states. Report those results only after testing them.
+
+```text
+Use web-accessibility to test keyboard access to the carousel cards and dots.
+Start with the div and span controls that only have click handlers in the source.
+Report browser results separately from untested screen-reader behavior.
+```
 
 ## Install
 
-Use the Skills CLI to select individual skills, or install the collection as a native plugin. Choose one method per agent to avoid loading duplicate copies.
+Use the Skills CLI to select individual skills, or install the collection as a native plugin. Choose one method for each agent. This avoids duplicate copies.
 
 ### Skills CLI
 
@@ -18,10 +82,10 @@ From your project directory:
 npx skills@latest add andre-lmarinho/skills
 ```
 
-Choose your agent and the skills you want. To install a specific skill:
+Choose your agent and the skills you want. To install one skill:
 
 ```sh
-npx skills@latest add andre-lmarinho/skills --skill engineering-docs
+npx skills@latest add andre-lmarinho/skills --skill technical-seo
 ```
 
 Add `--global` to make the selected skills available across projects. The installer lists supported agents and installation destinations. Check for existing skills with the same names before replacing them.
@@ -39,7 +103,7 @@ claude plugin marketplace add andre-lmarinho/skills
 claude plugin install andre-marinho-skills@andre-lmarinho
 ```
 
-Update with `claude plugin update andre-marinho-skills@andre-lmarinho`. Automatic updates can be enabled for this marketplace in Claude's plugin settings; they are off by default for a marketplace you add.
+Update with `claude plugin update andre-marinho-skills@andre-lmarinho`. Claude turns off automatic updates for added marketplaces by default. Enable updates in Claude's plugin settings.
 
 ### Codex plugin
 
@@ -50,78 +114,19 @@ codex plugin add andre-marinho-skills@andre-lmarinho
 
 Use a client with plugin support. The Skills CLI route also works when the installed client does not provide plugin commands.
 
-## Choose a skill
+## Use a skill
 
-| You need to… | Skill | What it checks |
-| --- | --- | --- |
-| Write, shorten, or review engineering documentation | [engineering-docs](skills/engineering-docs/SKILL.md) | Reader needs, implementation accuracy, procedures, interface contracts, and scope. |
-| Audit or fix how a site is discovered and interpreted | [technical-seo](skills/technical-seo/SKILL.md) | Search access, canonical URLs, structured data, social previews, image delivery, and agent-readable formats. |
-| Review search-facing text and drafts for useful, supported information | [search-content-review](skills/search-content-review/SKILL.md) | Information value, evidence, entity clarity, unsupported claims, repetition, and context lost in excerpts. |
-| Review or fix barriers in a web interface | [web-accessibility](skills/web-accessibility/SKILL.md) | Complete interactions, semantics, keyboard and assistive technology behavior, and applicable WCAG criteria. |
-
-## Use the skills
-
-Ask your agent in plain language, or invoke the installed skill explicitly. For a Skills CLI installation, use `$engineering-docs` in Codex or `/engineering-docs` in Claude Code. The plugin namespaces its skills: `$andre-marinho-skills:engineering-docs` or `/andre-marinho-skills:engineering-docs`. Substitute any skill from the table.
-
-### Write documentation an engineer can act on
-
-```text
-Use engineering-docs to shorten content/README.md. Check its commands
-and defaults against the implementation. Keep what a contributor needs
-to publish content; remove details that belong elsewhere.
-```
-
-The skill starts with the reader's task, then checks the facts behind the prose. It preserves details that change behavior: required inputs, defaults, precedence, limits, error cases, and side effects.
-
-Use it for root or folder READMEs, API and configuration reference, ADRs, RFCs, runbooks, and migration guides. It selects the structure the task needs instead of filling a universal template.
-
-### Find technical barriers to search and retrieval
-
-```text
-Use technical-seo to audit the article routes and their public output.
-Trace canonical URLs, metadata, sitemap entries, and Markdown alternatives.
-Report the smallest useful fixes before changing files.
-```
-
-The skill follows representative content from source to response and rendered output. It distinguishes repository intent, local behavior, production access, and actual indexing evidence.
-
-AI access is reviewed by provider and purpose. Search retrieval, user-triggered fetching, and model training have different controls. Optional formats such as llms.txt are assessed for a concrete consumer or workflow.
-
-### Review what the text actually contributes
-
-```text
-Use search-content-review on this project case study. Identify sections
-to keep, cut, merge, clarify, or substantiate. Test whether the main claims
-remain accurate when read as excerpts. Preserve measurement conditions
-and shared authorship.
-```
-
-The skill evaluates what a section helps the reader understand or decide, whether its claims are supported, and whether its subject and qualifications remain clear outside the surrounding page.
-
-The excerpt check catches plausible misreadings. It does not simulate a private ranking system or predict citation probability. SEO/GEO recommendations distinguish provider guidance, observed results, and editorial judgment.
-
-### Review complete interactions
-
-```text
-Use web-accessibility to review the checkout dialog and its error states.
-Check keyboard and focus behavior, accessible names, and announcements.
-Separate observed failures from interactions you cannot test here.
-```
-
-The skill uses WCAG 2.2 A and AA when another target is not specified. It combines source inspection, available automated checks, and manual interaction checks suited to the affected journey.
-
-Findings identify the barrier, affected interaction, evidence, applicable criterion, and smallest correction. Browser and screen-reader results are reported only when those checks were actually performed.
+Ask your agent in plain language, or invoke a skill explicitly. For a Skills CLI installation, use `$technical-seo` in Codex or `/technical-seo` in Claude Code. The plugin namespaces its skills: `$andre-marinho-skills:technical-seo` or `/andre-marinho-skills:technical-seo`. Replace `technical-seo` with `search-content-review` or `web-accessibility` when needed.
 
 ## Sources
 
-Each skill keeps a source ledger with primary references, their authority and scope, the date checked, and reasons to revisit them:
+Each skill keeps a source ledger. It lists primary references, their authority and scope, review dates, and reasons to revisit them:
 
-- [Documentation sources](skills/engineering-docs/SOURCES.md): Google Technical Writing, Microsoft Writing Style Guide, and Diátaxis.
 - [Technical SEO sources](skills/technical-seo/SOURCES.md): search-provider documentation, crawler controls, protocols, and discovery proposals.
 - [Content review sources](skills/search-content-review/SOURCES.md): Google and Microsoft guidance, with provider-specific boundaries.
 - [Accessibility sources](skills/web-accessibility/SOURCES.md): W3C standards, WAI evaluation guidance, and implementation patterns.
 
-Normative requirements, provider guidance, community proposals, and local review heuristics remain distinct. When guidance changes, the affected instruction and source record should change together.
+Normative requirements, provider guidance, community proposals, and local review heuristics remain distinct. Update the affected instruction and source record when guidance changes.
 
 ## Contribute and release
 
